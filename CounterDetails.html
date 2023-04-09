@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Counter Details Printing</title>
+  <!-- Internal CSS -->
+  <style>
+    label {
+      display: inline-block;
+      width: 150px;
+      text-align: right;
+      margin-right: 10px;
+    }
+    .output {
+      margin-top: 10px;
+      white-space: pre;
+    }
+    #count {
+			font-size: 24px;
+			margin-bottom: 10px;
+		}
+		#printButton {
+      margin-top: 30px;
+			font-size: 16px;
+			padding: 15px;
+		}
+  </style>
+</head>
+<body>
+  <h1>Counter Details Printing</h1>
+  <form>
+    <div>
+      <label for="counter-start-time">Counter Start Time:</label>
+      <input type="time" id="counter-start-time" required>
+      <label for="counter-end-time">Counter End Time:</label>
+      <input type="time" id="counter-end-time" required>
+      <label for="break-start-time">Break Start Time:</label>
+      <input type="time" id="break-start-time" required>
+      <label for="break-end-time">Break End Time:</label>
+      <input type="time" id="break-end-time" required>
+    </div>
+    <button type="button" id="printButton">GO</button>
+  </form>
+  <div class="output" id="printOutput"></div>
+
+	<p>Print Count : <span id="count">0</span></p>
+
+  <!-- Internal JavaScript -->
+  <script>
+
+    const printButton = document.querySelector("#printButton");
+    
+    printButton.addEventListener("click", printDetails);
+   
+    function printDetails() {
+      var countElement = document.getElementById("count");
+			var count = parseInt(countElement.innerHTML);
+			count++;
+			countElement.innerHTML = count;
+      
+      const counterStartTime = document.querySelector("#counter-start-time").value;
+      const counterEndTime = document.querySelector("#counter-end-time").value;
+      const breakStartTime = document.querySelector("#break-start-time").value;
+      const breakEndTime = document.querySelector("#break-end-time").value;
+
+      const printOutput = document.querySelector("#printOutput");
+      const breakDuration = new Date(`2000-01-01T${breakEndTime}:00Z`) - new Date(`2000-01-01T${breakStartTime}:00Z`);
+      const printCopy = breakDuration / (1000 * 60 * 60);
+
+      printOutput.textContent = `
+      Counter StartTime : ${counterStartTime}
+      Counter End Time : ${counterEndTime}
+      Counter Breakstarttime : ${breakStartTime}
+      Counter Breakendtime : ${breakEndTime}
+      Print Copy : ${printCopy.toFixed(0)}`;
+    }
+  </script>
+</body>
+</html>
